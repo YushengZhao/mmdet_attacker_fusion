@@ -197,8 +197,8 @@ def ada_attack(yolo_model, rcnn_model, img, conf_thresh, max_iter, epsilon, mask
         last_loss.append(tloss.item())
         temp_list = last_loss[-5:]
         if temp_list[-1] > temp_list[0]:
-            if epsilon > 2:
-                epsilon = epsilon - 1.0
+            if epsilon > 1:
+                epsilon = epsilon * 0.95
             else:
                 epsilon = 1.0
         NP_P_yolo = normalized_grad_yolo * epsilon  # 整个输入图片的单次扰动
