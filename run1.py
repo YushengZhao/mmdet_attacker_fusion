@@ -37,7 +37,7 @@ for i in range(len(imgs_list)):
     print('It is attacking on the {}-th image, the image name is {}'.format(i, image_name))
     image_path = os.path.join(clean_path, imgs_list[i])
     img = cv2.imread(image_path)
-    mask = np.load('Mask/1471/{}.npy'.format(image_name)) * mesh
+    mask = np.load('Mask/1471/Mask/{}.npy'.format(image_name)) * mesh
     # finalimg, noise = str_attack(darknet_model, img, conf_thresh=0.35, max_iter=120, epsilon=10, mask=mask)
     finalimg, noise = ada_attack(darknet_model, rcnn_model, img, conf_thresh=0.3, max_iter=100, epsilon=6, mask=mask)
     # finalimg, noise = gen_attack(darknet_model, img, conf_thresh=0.35, max_iter=100, epsilon=2, mask=mask)
