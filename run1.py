@@ -30,8 +30,8 @@ clean_path = 'select1000_new/'  # 干净图片目录
 dirty_path = 'select1000_new_p/'  # 对抗图片存放位置
 imgs_list = os.listdir(clean_path)
 mesh = np.zeros((500, 500, 3))
-mesh[1::3, :, :] = 1
-mesh[:, 1::3, :] = 1
+mesh[::5, :, :] = 1
+mesh[:, ::5, :] = 1
 for i in range(len(imgs_list)):
     image_name = os.path.basename(imgs_list[i]).split('.')[0]  # 测试图片名称
     print('It is attacking on the {}-th image, the image name is {}'.format(i, image_name))
