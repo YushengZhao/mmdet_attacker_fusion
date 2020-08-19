@@ -23,7 +23,7 @@ darknet_model = darknet_model.eval().cuda()
 # faster rcnn
 config = './mmdetection/configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
 checkpoint = './models/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
-rcnn_model = init_detector(config, checkpoint, device='cuda:1')  # 构建 faster rcnn
+rcnn_model = init_detector(config, checkpoint, device='cuda:0')  # 构建 faster rcnn
 
 # 循环攻击目录中的每张图片
 clean_path = 'select1000_new/'  # 干净图片目录
