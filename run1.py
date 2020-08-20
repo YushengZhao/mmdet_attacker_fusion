@@ -3,7 +3,7 @@ import os
 import sys
 
 sys.path.append('./mmdetection/')
-os.environ["CUDA_VISIBLE_DEVICES"] = '0'
+os.environ["CUDA_VISIBLE_DEVICES"] = '1'
 
 from mmdet.apis import init_detector
 import cv2
@@ -23,7 +23,7 @@ darknet_model = darknet_model.eval().cuda()
 # faster rcnn
 config = './mmdetection/configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
 checkpoint = './models/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
-rcnn_model = init_detector(config, checkpoint, device='cuda:0')  # 构建 faster rcnn
+rcnn_model = init_detector(config, checkpoint, device='cuda:1')  # 构建 faster rcnn
 
 # 循环攻击目录中的每张图片
 clean_path = 'select1000_new/'  # 干净图片目录
@@ -33,7 +33,7 @@ imgs_list.sort()
 mesh = np.zeros((500, 500, 3))
 mesh[::2, :, :] = 1
 mesh[:, ::2, :] = 1
-imgs_list = imgs_list[:500]
+imgs_list = imgs_list[500:]
 for i in range(len(imgs_list)):
     image_name = os.path.basename(imgs_list[i]).split('.')[0]  # 测试图片名称
     print('It is attacking on the {}-th image, the image name is {}'.format(i, image_name))
