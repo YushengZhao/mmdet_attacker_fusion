@@ -27,7 +27,7 @@ rcnn_model = init_detector(config, checkpoint, device='cuda:0')  # 构建 faster
 
 # 循环攻击目录中的每张图片
 clean_path = 'select1000_new/'  # 干净图片目录
-dirty_path = 'select1000_new_p2/'  # 对抗图片存放位置
+dirty_path = 'select1000_new_p/'  # 对抗图片存放位置
 imgs_list = os.listdir(clean_path)
 imgs_list.sort()
 
