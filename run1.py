@@ -32,7 +32,7 @@ imgs_list = os.listdir(clean_path)
 imgs_list.sort()
 
 
-def get_mesh(mask, threshold=4500):
+def get_mesh(mask, threshold=4000):
     cnt = np.sum(mask) / 3
     stride = 1
     f = lambda x: (2 * x - 1) / (x * x)
@@ -44,7 +44,7 @@ def get_mesh(mask, threshold=4500):
     return mesh
 
 
-imgs_list = imgs_list[:500]
+# imgs_list = imgs_list[:500]
 for i in range(len(imgs_list)):
     image_name = os.path.basename(imgs_list[i]).split('.')[0]  # 测试图片名称
     print('It is attacking on the {}-th image, the image name is {}'.format(i, image_name))
@@ -54,7 +54,7 @@ for i in range(len(imgs_list)):
     mesh = get_mesh(mask)
     mask = mask * mesh
     # finalimg, noise = str_attack(darknet_model, img, conf_thresh=0.35, max_iter=120, epsilon=10, mask=mask)
-    finalimg, noise = ada_attack(darknet_model, rcnn_model, img, conf_thresh=0.3, max_iter=100, epsilon=6, mask=mask)
+    finalimg, noise = ada_attack(darknet_model, rcnn_model, img, conf_thresh=0.3, max_iter=150, epsilon=6, mask=mask)
     # finalimg, noise = gen_attack(darknet_model, img, conf_thresh=0.35, max_iter=100, epsilon=2, mask=mask)
     image_pert_path = os.path.join(dirty_path, imgs_list[i])
     finalimg.save(image_pert_path)
