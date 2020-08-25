@@ -206,7 +206,9 @@ def ada_attack(yolo_model, rcnn_model, img, conf_thresh, max_iter, epsilon, mask
         NP_P_rcnn = normalized_grad_rcnn * epsilon
         noise_rcnn += NP_P_rcnn.squeeze().transpose(1, 2, 0)
         NOISE = cv2.resize(noise_yolo, (500, 500)) * mask + cv2.resize(noise_rcnn, (500, 500)) * mask
-        NOISE = (0 <= NOISE <= 1) * 1 + (-1 <= NOISE < 0) * (-1) + NOISE * (1 - (0 <= NOISE <= 1) - (-1 <= NOISE < 0))
+        ind_one = np.logical_and(NOISE >= 0, NOISE <= 1)
+        ind_minus_one = np.logical_and(NOISE >= -1, NOISE < 0)
+        NOISE = ind_one * 1 + ind_minus_one * (-1) + NOISE * (1 - ind_one - ind_minus_one)
         if iter_n == 0:
             NOISE += np.ones_like(NOISE)
         temp_img = np.clip((img - NOISE[:, :, ::-1]), 0, 255)  # 改为int32
