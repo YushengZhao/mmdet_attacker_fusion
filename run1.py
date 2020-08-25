@@ -44,7 +44,7 @@ def get_mesh(mask, threshold=4500):
     return mesh
 
 
-imgs_list = imgs_list[:200]
+imgs_list = imgs_list[:100]
 for i in range(len(imgs_list)):
     image_name = os.path.basename(imgs_list[i]).split('.')[0]  # 测试图片名称
     print('It is attacking on the {}-th image, the image name is {}'.format(i, image_name))
