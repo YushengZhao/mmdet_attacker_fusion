@@ -32,7 +32,7 @@ imgs_list = os.listdir(clean_path)
 imgs_list.sort()
 
 
-def get_mesh(mask, threshold=4000):
+def get_mesh(mask, threshold=3000):
     cnt = np.sum(mask) / 3
     stride = 1
     f = lambda x: (2 * x - 1) / (x * x)
@@ -44,7 +44,7 @@ def get_mesh(mask, threshold=4000):
     return mesh
 
 
-# imgs_list = imgs_list[:500]
+imgs_list = imgs_list[:500]
 for i in range(len(imgs_list)):
     image_name = os.path.basename(imgs_list[i]).split('.')[0]  # 测试图片名称
     print('It is attacking on the {}-th image, the image name is {}'.format(i, image_name))
