@@ -158,6 +158,7 @@ def L2_attack(yolo_model, rcnn_model, img, conf_thresh, max_iter, epsilon, mask)
 
 
 def ada_attack(yolo_model, rcnn_model, img, conf_thresh, max_iter, epsilon, mask):
+    finalimgs = []
     P = [0.58395, 0.5712, 0.57375]  # RGB
     # yolo 部分
     noise_yolo = np.zeros([608, 608, 3])  # 设置为原图大小
@@ -193,7 +194,8 @@ def ada_attack(yolo_model, rcnn_model, img, conf_thresh, max_iter, epsilon, mask
             else:
                 normalized_grad_rcnn = np.zeros([1, 3, 800, 800])
         else:
-            return finalimg, NOISE
+            finalimgs.append(finalimg)
+            return finalimgs, NOISE
         last_loss.append(tloss.item())
         temp_list = last_loss[-5:]
         if temp_list[-1] > temp_list[0]:
@@ -216,7 +218,10 @@ def ada_attack(yolo_model, rcnn_model, img, conf_thresh, max_iter, epsilon, mask
         temp_img = np.clip((img - NOISE[:, :, ::-1]), 0, 255)  # 改为int32
         X = np.uint8(temp_img)
         finalimg = Image.fromarray(cv2.cvtColor(X, cv2.COLOR_BGR2RGB))  # 500*500*3
+        if (iter_n + 1) % 50 == 0:
+            finalimgs.append(finalimg)
         new_input = resize_big(finalimg)
         temp_data = prepare_data(rcnn_model, X)
         data['img'][0].data = temp_data['img'][0].data
-    return finalimg, NOISE
+    finalimgs.append(finalimg)
+    return finalimgs, NOISE

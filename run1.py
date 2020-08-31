@@ -27,7 +27,8 @@ rcnn_model = init_detector(config, checkpoint, device='cuda:1')  # 构建 faster
 
 # 循环攻击目录中的每张图片
 clean_path = 'select1000_new/'  # 干净图片目录
-dirty_path = 'select1000_new_p2/'  # 对抗图片存放位置
+dirty_path = 'select1000_new_p/'  # 对抗图片存放位置
+dirty_path2 = 'select1000_new_p2/'
 imgs_list = os.listdir(clean_path)
 imgs_list.sort()
 
@@ -54,9 +55,16 @@ for i in range(len(imgs_list)):
     # mesh = get_mesh(mask)
     # mask = mask * mesh
     # finalimg, noise = str_attack(darknet_model, img, conf_thresh=0.35, max_iter=120, epsilon=10, mask=mask)
-    finalimg, noise = ada_attack(darknet_model, rcnn_model, img, conf_thresh=0.35, max_iter=250, epsilon=6, mask=mask)
+    finalimgs, noise = ada_attack(darknet_model, rcnn_model, img, conf_thresh=0.35, max_iter=250, epsilon=6, mask=mask)
     # finalimg, noise = gen_attack(darknet_model, img, conf_thresh=0.35, max_iter=100, epsilon=2, mask=mask)
     image_pert_path = os.path.join(dirty_path, imgs_list[i])
-    finalimg.save(image_pert_path)
+    image_pert_path2 = os.path.join(dirty_path2, imgs_list[i])
+    if len(finalimgs) == 1:
+        finalimg = finalimgs[0]
+        finalimg.save(image_pert_path)
+        finalimg.save(image_pert_path2)
+    else:
+        finalimgs[-1].save(image_pert_path)
+        finalimgs[-2].save(image_pert_path2)
     # cv2.imwrite(,finalimg)
 print('done...')
