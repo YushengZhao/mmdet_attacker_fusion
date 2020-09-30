@@ -1,0 +1,3 @@
+[submodule "mmdetection_modified"]
+	path = mmdetection/mmdetection_modified
+	url = git@github.com:YushengZhao/mmdetection_modified.git
